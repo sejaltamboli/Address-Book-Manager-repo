@@ -29,8 +29,18 @@ public class AdressBook {
     }
 
     public static void main(String[] args) {
-        AdressBook adressBook = new AdressBook();
-        adressBook.addContact();
-        adressBook.displayContact();
+        System.out.println("Enter the List of Contact: ");
+        int list_of_contact;
+        Scanner sc = new Scanner(System.in);
+         list_of_contact = sc.nextInt();
+        AdressBook[] adressBook = new AdressBook[list_of_contact];
+
+        for(int i = 0; i < list_of_contact; i++) {
+            adressBook[i] = new AdressBook();
+            adressBook[i].addContact();
+        }
+        for( int i = 0; i < list_of_contact; i++) {
+            adressBook[i].displayContact();
+        }
     }
 }
