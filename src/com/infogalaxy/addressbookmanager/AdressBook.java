@@ -1,12 +1,14 @@
 package com.infogalaxy.addressbookmanager;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdressBook {
-
+    ArrayList<Contact> contactlist = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
     Contact contact = new Contact();
-    public void addContact(){
+
+    public void addContact() {
         System.out.println("Enter the First Name: ");
         contact.setFirstName(sc.next());
         System.out.println("Enter the Last Name: ");
@@ -23,24 +25,34 @@ public class AdressBook {
         contact.setEmail(sc.next());
         System.out.println("Enter the Zip Code: ");
         contact.setZip(sc.next());
+        contactlist.add(contact);
     }
-    public void displayContact(){
-        System.out.println(contact.toString());
+
+    public void displayContact() {
+        for (int i = 0; i < contactlist.size(); i++) {
+            Contact contact = contactlist.get(i);
+            System.out.println(contact.toString());
+        }
     }
 
     public static void main(String[] args) {
-        System.out.println("Enter the List of Contact: ");
-        int list_of_contact;
         Scanner sc = new Scanner(System.in);
-         list_of_contact = sc.nextInt();
-        AdressBook[] adressBook = new AdressBook[list_of_contact];
-
-        for(int i = 0; i < list_of_contact; i++) {
-            adressBook[i] = new AdressBook();
-            adressBook[i].addContact();
-        }
-        for( int i = 0; i < list_of_contact; i++) {
-            adressBook[i].displayContact();
-        }
+        AdressBook adressBook = new AdressBook();
+        int choice;
+        do {
+            System.out.println("***** CONTACT INVENTORY MANAGEMENT *****");
+            System.out.println("\n1. ADD CONTACT \n2. DISPLAY CONTACT \n3. EXIT ");
+            System.out.println("Enter your Choice : ");
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    adressBook.addContact();
+                    break;
+                case 2:
+                    adressBook.displayContact();
+                    break;
+            }
+        } while (choice != 3);
     }
 }
+
