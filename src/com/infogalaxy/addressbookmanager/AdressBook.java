@@ -1,5 +1,9 @@
 package com.infogalaxy.addressbookmanager;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -88,6 +92,22 @@ public class AdressBook {
         }
 
     }
+    public void backuptofile() {
+        String contactdata = null;
+        for( int i = 0; i < contactlist.size(); i++) {
+        Contact contact = contactlist.get(i);
+        contactdata = contact.getFirstName()+","+contact.getLastName()+","+contact.getAddress()+","+contact.getCity()+","+contact.getState()+","
+                      +contact.getMobno()+","+contact.getEmail()+","+contact.getZip()+"\n"+contactdata;
+            //System.out.println(contactdata);
+    }
+        try {
+            Path file = Paths.get("MyData.txt");
+            byte[] filedata = contactdata.getBytes();
+            Files.write(file,filedata);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -95,7 +115,8 @@ public class AdressBook {
         int choice;
         do {
             System.out.println("***** CONTACT INVENTORY MANAGEMENT *****");
-            System.out.println("\n1. ADD CONTACT \n2. DISPLAY CONTACT \n3. EDIT CONTACT \n4. FIND CONTACT \n5 DELETE CONTACT \n6 EXIT. ");
+            System.out.println("\n1. ADD CONTACT \n2. DISPLAY CONTACT \n3. EDIT CONTACT \n4. FIND CONTACT " +
+                    "\n5 DELETE CONTACT \n6 BACKUPTOFILE \n7 EXIT. ");
             System.out.println("Enter your Choice : ");
             choice = sc.nextInt();
             switch (choice) {
@@ -114,8 +135,11 @@ public class AdressBook {
                 case 5:
                     adressBook.deletecontact();
                     break;
+                case 6:
+                    adressBook.backuptofile();
+                    break;
             }
-        } while (choice != 6);
+        } while (choice != 7);
     }
 }
 
