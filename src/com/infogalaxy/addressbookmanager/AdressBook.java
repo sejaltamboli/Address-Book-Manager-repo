@@ -1,5 +1,8 @@
 package com.infogalaxy.addressbookmanager;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -108,15 +111,39 @@ public class AdressBook {
             e.printStackTrace();
         }
     }
+    public void restorefromfile() {
 
-    public static void main(String[] args) {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("MyData.txt"));
+            String data;
+            while ((data = bufferedReader.readLine()) != null && !data.equalsIgnoreCase("null")) {
+                //System.out.println(data);
+                String[] separeteData = data.split(",");
+                Contact contact = new Contact();
+                contact.setFirstName(separeteData[0]);
+                contact.setLastName(separeteData[1]);
+                contact.setAddress(separeteData[2]);
+                contact.setCity(separeteData[3]);
+                contact.setState(separeteData[4]);
+                contact.setMobno(separeteData[5]);
+                contact.setEmail(separeteData[6]);
+                contact.setZip(separeteData[7]);
+                contactlist.add(contact);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+        public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         AdressBook adressBook = new AdressBook();
         int choice;
         do {
             System.out.println("***** CONTACT INVENTORY MANAGEMENT *****");
             System.out.println("\n1. ADD CONTACT \n2. DISPLAY CONTACT \n3. EDIT CONTACT \n4. FIND CONTACT " +
-                    "\n5 DELETE CONTACT \n6 BACKUPTOFILE \n7 EXIT. ");
+                    "\n5 DELETE CONTACT \n6 BACKUPTOFILE \n7 RESTOREFROMFILE \n8 EXIT. ");
             System.out.println("Enter your Choice : ");
             choice = sc.nextInt();
             switch (choice) {
@@ -138,8 +165,11 @@ public class AdressBook {
                 case 6:
                     adressBook.backuptofile();
                     break;
+                case 7:
+                    adressBook.restorefromfile();
+                    break;
             }
-        } while (choice != 7);
+        } while (choice != 8);
     }
 }
 
